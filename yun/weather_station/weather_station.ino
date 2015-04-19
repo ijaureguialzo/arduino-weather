@@ -34,10 +34,10 @@ ParseClient parse;
 // Arduino sketch setup
 void setup() {
 
-  Serial.begin(9600);
+  //Serial.begin(9600);
   //while (!Serial); // wait for a serial connection
 
-  Serial.println("Arduino Weather");
+  //Serial.println("Arduino Weather");
 
   dht.begin();
 
@@ -45,6 +45,9 @@ void setup() {
   delay(2000);
 
   lcd.begin(16, 2);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Arduino Weather");
 
   // Initialize Bridge
   Bridge.begin();
@@ -56,13 +59,12 @@ void setup() {
 // Arduino sketch loop
 void loop() {
 
-
   // Temperature (ºC) and humidity (%)
   float h = dht.readHumidity();
   float t = dht.readTemperature();
 
   if (isnan(h) || isnan(t) ) {
-    Serial.println("Failed to read from DHT sensor!");
+    //Serial.println("Failed to read from DHT sensor!");
     return;
   }
 
@@ -91,7 +93,9 @@ void loop() {
   create.add("dht11", t);
   create.add("tmp36", temperatura);
   create.add("humedad", h);
-  ParseResponse response = create.send();
+  create.send();
+
+  /*ParseResponse response = create.send();
 
   Serial.println("\nResponse for saving a TestObject:");
   Serial.print(response.getJSONBody());
@@ -103,7 +107,7 @@ void loop() {
     Serial.println("Failed to save the object");
   }
   response.close(); // Do not forget to free the resource
-
+*/
   delay(30000);  // Esperar 30s
 
 }
