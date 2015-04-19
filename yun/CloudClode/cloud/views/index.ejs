@@ -22,15 +22,21 @@
         var chart = new CanvasJS.Chart("chartContainer", {
 
           title:{
-            text: "Temperatura"
+            text: "Yún"
           },
           data: [//array of dataSeries
             { //dataSeries object
-
+              name: "Temperatura",
              /*** Change type "column" to "bar", "area", "line" or "pie"***/
              type: "line",
-              dataPoints: [ <%= datos %> ]
-           }
+              dataPoints: [ <%= datosTemperatura %> ]
+           },
+           { //dataSeries object
+             name: "Humedad",
+            /*** Change type "column" to "bar", "area", "line" or "pie"***/
+            type: "line",
+             dataPoints: [ <%= datosHumedad %> ]
+          }
            ]
          });
 

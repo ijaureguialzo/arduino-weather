@@ -16,13 +16,15 @@ app.get('/', function(req, res) {
   query.find({
     success: function(results) {
 
-      var texto = "";
+      var textoTemperatura = "";
+      var textoHumedad = "";
 
       for (var i = 0; i < results.length; ++i) {
-        texto += "{x:new Date('"+results[i].updatedAt+"'),y:"+results[i].get("dht11")+"},";
+        textoTemperatura += "{x:new Date('"+results[i].updatedAt+"'),y:"+results[i].get("dht11")+"},";
+        textoHumedad += "{x:new Date('"+results[i].updatedAt+"'),y:"+results[i].get("humedad")+"},";
       }
 
-      res.render('index',{ datos: texto } );
+      res.render('index',{ datosTemperatura: textoTemperatura, datosHumedad: textoHumedad } );
     },
     error: function() {
       response.error("movie lookup failed");
