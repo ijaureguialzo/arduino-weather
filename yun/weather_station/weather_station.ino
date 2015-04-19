@@ -1,4 +1,4 @@
-// LCD setup 
+// LCD setup
 #include <LiquidCrystal.h>
 
 int RS = 8;
@@ -22,15 +22,32 @@ DHT dht(DHTPIN, DHTTYPE);
 // TMP36 sensor at pin A0
 const int sensor = A0;
 
+// Parse.com
+#include <Parse.h>
+#include <Bridge.h>
+
+ParseClient parse;
+
+// Parse.com app keys
+#include "parse_keys.h"
+
 // Arduino sketch setup
 void setup() {
 
   Serial.begin(9600);
+  //while (!Serial); // wait for a serial connection
+
+  Serial.println("Arduino Weather");
 
   dht.begin();
 
   lcd.begin(16, 2);
- 
+
+  // Initialize Bridge
+  Bridge.begin();
+
+  // Initialize Parse
+  parse.begin(PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
 }
 
 // Arduino sketch loop
@@ -42,7 +59,7 @@ void loop() {
   // Temperature (ºC) and humidity (%)
   float h = dht.readHumidity();
   float t = dht.readTemperature();
-  
+
   if (isnan(h) || isnan(t) ) {
     Serial.println("Failed to read from DHT sensor!");
     return;
@@ -56,16 +73,37 @@ void loop() {
   // Print the temperature on the LCD
   lcd.clear();
 
-  lcd.setCursor(0,0);  
+  lcd.setCursor(0, 0);
   lcd.print("T: ");
-  lcd.print(temperatura); // TMP36, use t for the DHT11
+  lcd.print(t); // temperatura -> TMP36, t -> DHT11
   lcd.print((char)223); // º symbol
   lcd.print("C");
 
-  lcd.setCursor(0,1);  
+  lcd.setCursor(0, 1);
   lcd.print("H: ");
   lcd.print(h);
   lcd.print("%");
-  
+
+  ParseObjectCreate create;
+  create.setClassName("DatosSensores");
+  create.add("idEstacion", "YUN0001");
+  create.add("dht11", t);
+  create.add("tmp36", temperatura);
+  create.add("humedad", h);
+  ParseResponse response = create.send();
+
+  Serial.println("\nResponse for saving a TestObject:");
+  Serial.print(response.getJSONBody());
+  if (!response.getErrorCode()) {
+    String objectId = response.getString("objectId");
+    Serial.print("Test object id:");
+    Serial.println(objectId);
+  } else {
+    Serial.println("Failed to save the object");
+  }
+  response.close(); // Do not forget to free the resource
+
+  delay(3000);  // Esperar 3+2=5s
+
 }
 
