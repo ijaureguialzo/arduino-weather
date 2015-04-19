@@ -41,6 +41,9 @@ void setup() {
 
   dht.begin();
 
+  // Wait for sensor
+  delay(2000);
+
   lcd.begin(16, 2);
 
   // Initialize Bridge
@@ -53,8 +56,6 @@ void setup() {
 // Arduino sketch loop
 void loop() {
 
-  // Wait for sensor
-  delay(2000);
 
   // Temperature (ºC) and humidity (%)
   float h = dht.readHumidity();
@@ -103,7 +104,7 @@ void loop() {
   }
   response.close(); // Do not forget to free the resource
 
-  delay(3000);  // Esperar 3+2=5s
+  delay(30000);  // Esperar 30s
 
 }
 
