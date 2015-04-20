@@ -13,6 +13,7 @@ app.use(express.bodyParser());    // Middleware for reading request body
 app.get('/', function(req, res) {
 
   var query = new Parse.Query("DatosSensores");
+  query.limit(1000);
   query.find({
     success: function(results) {
 
