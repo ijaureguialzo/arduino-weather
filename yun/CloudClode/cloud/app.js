@@ -12,8 +12,15 @@ app.use(express.bodyParser());    // Middleware for reading request body
 // path and HTTP verb using the Express routing API.
 app.get('/', function(req, res) {
 
+  var d = new Date();
+                 var time = (24 * 3600 * 1000);
+                 var yesterdaysDate = new Date(d.getTime() - (time));
+
+
   var query = new Parse.Query("DatosSensores");
-  query.limit(1000);
+  query.limit(720);
+  query.greaterThanOrEqualTo("createdAt", yesterdaysDate);
+
   query.find({
     success: function(results) {
 

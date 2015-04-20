@@ -41,9 +41,6 @@ void setup() {
 
   dht.begin();
 
-  // Wait for sensor
-  delay(2000);
-
   lcd.begin(16, 2);
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -54,6 +51,9 @@ void setup() {
 
   // Initialize Parse
   parse.begin(PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+
+  // Wait for sensor
+  delay(2000);
 }
 
 // Arduino sketch loop
@@ -108,7 +108,7 @@ void loop() {
   }
   response.close(); // Do not forget to free the resource
 */
-  delay(30000);  // Esperar 30s
+  delay(120000);  // Esperar 2min
 
 }
 
