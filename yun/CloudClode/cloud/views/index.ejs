@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="es">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,69 +31,91 @@
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
     <script type="text/javascript">
-      window.onload = function () {
-        var chart = new CanvasJS.Chart("chartContainer", {
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("grafico_temperatura", {
 
-          title:{
-            text: "Yún"
-          },
-          data: [//array of dataSeries
-            { //dataSeries object
-              name: "Temperatura",
-             /*** Change type "column" to "bar", "area", "line" or "pie"***/
-             type: "line",
-              dataPoints: [ <%= datosTemperatura %> ]
-           },
-           { //dataSeries object
-             name: "Humedad",
-            /*** Change type "column" to "bar", "area", "line" or "pie"***/
-            type: "line",
-             dataPoints: [ <%= datosHumedad %> ]
-          }
-           ]
-         });
+                title: {
+                    text: "Temperatura"
+                },
+                axisX: {
+                    valueFormatString: "HH:mm"
+                },
 
-        chart.render();
-      }
-      </script>
-      <script type="text/javascript" src="canvasjs/jquery.canvasjs.min.js"></script>
+                data: [//array of dataSeries
+                    { //dataSeries object
+                        name: "Temperatura",
+                        /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                        type: "line",
+                        color: "#8f2600",
+                        dataPoints: [<%= datosTemperatura %>]
+                    }
+                ]
+            });
 
-      <style type="text/css">
-        body {
-          padding-top: 50px;
+            chart.render();
+
+            var chart2 = new CanvasJS.Chart("grafico_humedad", {
+
+                title: {
+                    text: "Humedad"
+                },
+                axisX: {
+                    valueFormatString: "HH:mm"
+                },
+                data: [//array of dataSeries
+                    { //dataSeries object
+                        name: "Humedad",
+                        color: "#00878f",
+                        /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                        type: "line",
+                        dataPoints: [<%= datosHumedad %>]
+                    }
+                ]
+            });
+
+            chart2.render();
+
         }
-        .starter-template {
-          padding: 40px 15px;
-          text-align: center;
-        }
-      </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Arduino Weather</a>
-        </div>
-      </div>
-    </nav>
+    </script>
+    <script type="text/javascript" src="canvasjs/jquery.canvasjs.min.js"></script>
+
+</head>
+<body>
+
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
     <div class="container">
-      <div id="chartContainer" style="width: 100%;"></div>
-    </div><!-- /.container -->
+        <h1>arduino-weather</h1>
+        <p>Un experimento con <a href="http://www.arduino.cc/">Arduino</a> y <a href="https://parse.com/">Parse</a>. Código fuente <a href="https://github.com/ijaureguialzo/arduino-weather">disponible en GitHub</a>.</p>
+    </div>
+</div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-  </body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="grafico_temperatura" style="height:360px;"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="grafico_humedad" style="height:360px;"></div>
+        </div>
+    </div>
+    <hr/>
+    <footer>
+        <p>&copy; Ion Jaureguialzo Sarasola 2015</p>
+    </footer>
+</div>
+<!-- /.container -->
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
 </html>

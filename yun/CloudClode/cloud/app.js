@@ -1,7 +1,6 @@
-
 // These two lines are required to initialize Express in Cloud Code.
- express = require('express');
- app = express();
+express = require('express');
+app = express();
 
 // Global app configuration section
 app.set('views', 'cloud/views');  // Specify the folder to find templates
@@ -10,34 +9,34 @@ app.use(express.bodyParser());    // Middleware for reading request body
 
 // This is an example of hooking up a request handler with a specific request
 // path and HTTP verb using the Express routing API.
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
 
-  var d = new Date();
-                 var time = (24 * 3600 * 1000);
-                 var yesterdaysDate = new Date(d.getTime() - (time));
+    var d = new Date();
+    var time = (24 * 3600 * 1000);
+    var yesterdaysDate = new Date(d.getTime() - (time));
 
 
-  var query = new Parse.Query("DatosSensores");
-  query.limit(720);
-  query.greaterThanOrEqualTo("createdAt", yesterdaysDate);
+    var query = new Parse.Query("DatosSensores");
+    query.limit(720);
+    query.greaterThanOrEqualTo("createdAt", yesterdaysDate);
 
-  query.find({
-    success: function(results) {
+    query.find({
+        success: function (results) {
 
-      var textoTemperatura = "";
-      var textoHumedad = "";
+            var textoTemperatura = "";
+            var textoHumedad = "";
 
-      for (var i = 0; i < results.length; ++i) {
-        textoTemperatura += "{x:new Date('"+results[i].updatedAt+"'),y:"+results[i].get("dht11")+"},";
-        textoHumedad += "{x:new Date('"+results[i].updatedAt+"'),y:"+results[i].get("humedad")+"},";
-      }
+            for (var i = 0; i < results.length; ++i) {
+                textoTemperatura += "{x:new Date('" + results[i].updatedAt + "'),y:" + results[i].get("dht11") + "},";
+                textoHumedad += "{x:new Date('" + results[i].updatedAt + "'),y:" + results[i].get("humedad") + "},";
+            }
 
-      res.render('index',{ datosTemperatura: textoTemperatura, datosHumedad: textoHumedad } );
-    },
-    error: function() {
-      response.error("movie lookup failed");
-    }
-  });
+            res.render('index', {datosTemperatura: textoTemperatura, datosHumedad: textoHumedad});
+        },
+        error: function () {
+            response.error("movie lookup failed");
+        }
+    });
 
 });
 
