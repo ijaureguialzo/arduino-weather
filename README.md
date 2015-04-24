@@ -8,7 +8,7 @@ Two projects which test Arduino as temperature and humidity loggers.
 - Networking: Ethernet Shield
 - Data storage and graph: Plotly
 
-[Arduino Yún](./uno/) project:
+[Arduino Yún](./yun/) project:
 - Board: Arduino Yún
 - Sensor: DHT11 (temperature and humidity) and/or TMP36 (temperature only)
 - Networking: Onboard Wi-Fi
