@@ -1,13 +1,16 @@
-# Arduino Uno + TMP36 + Ethernet + Plotly
+# Arduino Weather Station
 
-Arduino TMP36 sensor temperature logger with Ethernet Shield and Plotly graph.
+Two projects which test Arduino as temperature and humidity loggers.
 
-![](uno/circuito_bb.png)
+[Arduino Uno](./uno/) project:
+- Board: Arduino Uno
+- Sensor: TMP36 (temperature only)
+- Networking: Ethernet Shield
+- Data storage and graph: Plotly
 
-# Arduino Yún + TMP36 + DHT11 + Parse
-
-Arduino temperature and humidity logger using TMP36 and DHT11 sensors.
-
-Writes data to [Parse.com](http://arduino-weather.parseapp.com/).
-
-![](yun/circuito_bb.png)
+[Arduino Yún](./uno/) project:
+- Board: Arduino Yún
+- Sensor: DHT11 (temperature and humidity) and/or TMP36 (temperature only)
+- Networking: Onboard Wi-Fi
+- Data storage: Parse.com
+- Graph: CanvasJS
