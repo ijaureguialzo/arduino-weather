@@ -19,14 +19,11 @@ LiquidCrystal lcd(RS, E, D4, D5, D6, D7 );
 
 DHT dht(DHTPIN, DHTTYPE);
 
-// TMP36 sensor at pin A0
-const int sensor = A0;
-
 // Parse.com
 #include <Parse.h>
 #include <Bridge.h>
 
-ParseClient parse;
+ParseClient client;
 
 // Parse.com app keys
 #include "parse_keys.h"
@@ -34,10 +31,8 @@ ParseClient parse;
 // Arduino sketch setup
 void setup() {
 
-  //Serial.begin(9600);
-  //while (!Serial); // wait for a serial connection
-
-  //Serial.println("Arduino Weather");
+  Serial.begin(9600);
+  Serial.println("Arduino Weather");
 
   dht.begin();
 
@@ -50,7 +45,7 @@ void setup() {
   Bridge.begin();
 
   // Initialize Parse
-  parse.begin(PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+  client.begin(PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
 
   // Wait for sensor
   delay(2000);
@@ -64,21 +59,16 @@ void loop() {
   float t = dht.readTemperature();
 
   if (isnan(h) || isnan(t) ) {
-    //Serial.println("Failed to read from DHT sensor!");
+    Serial.println("Failed to read from DHT sensor!");
     return;
   }
-
-  // Calculate the temperature of TMP36 in celsius
-  int valorSensor = analogRead(sensor);
-  float voltaje = (valorSensor / 1024.0) * 5.0;
-  float temperatura = (voltaje - .5) * 100;
 
   // Print the temperature on the LCD
   lcd.clear();
 
   lcd.setCursor(0, 0);
   lcd.print("T: ");
-  lcd.print(t); // temperatura -> TMP36, t -> DHT11
+  lcd.print(t);
   lcd.print((char)223); // º symbol
   lcd.print("C");
 
@@ -87,28 +77,16 @@ void loop() {
   lcd.print(h);
   lcd.print("%");
 
-  ParseObjectCreate create;
-  create.setClassName("DatosSensores");
-  create.add("idEstacion", "YUN0001");
-  create.add("dht11", t);
-  create.add("tmp36", temperatura);
-  create.add("humedad", h);
-  create.send();
+  ParseObjectCreate parse;
+  parse.setClassName("DatosSensores");
+  parse.add("idEstacion", "YUN0001");
+  parse.add("dht11", t);
+  parse.add("humedad", h);
+  parse.send();
 
-  /*ParseResponse response = create.send();
+  Serial.println("Data sent to Parse");
 
-  Serial.println("\nResponse for saving a TestObject:");
-  Serial.print(response.getJSONBody());
-  if (!response.getErrorCode()) {
-    String objectId = response.getString("objectId");
-    Serial.print("Test object id:");
-    Serial.println(objectId);
-  } else {
-    Serial.println("Failed to save the object");
-  }
-  response.close(); // Do not forget to free the resource
-*/
-  delay(120000);  // Esperar 2min
+  delay(120000);  // Wait 2min
 
 }
 
