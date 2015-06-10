@@ -18,7 +18,7 @@ app.get('/', function (req, res) {
 
     var query = new Parse.Query("DatosSensores");
     query.limit(720);
-    query.greaterThanOrEqualTo("createdAt", yesterdaysDate);
+    //query.greaterThanOrEqualTo("createdAt", yesterdaysDate);
 
     query.find({
         success: function (results) {
